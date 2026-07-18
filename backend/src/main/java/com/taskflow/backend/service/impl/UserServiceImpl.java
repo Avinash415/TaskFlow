@@ -9,6 +9,8 @@ import com.taskflow.backend.mapper.UserMapper;
 import com.taskflow.backend.repository.UserRepository;
 import com.taskflow.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO request) {
@@ -29,6 +32,9 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.toEntity(request);
+
+        user.setPassword(
+                passwordEncoder.encode(request.getPassword()));
 
         user.setEnabled(true);
 
@@ -50,21 +56,19 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO getUserById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User not found"));
 
         return userMapper.toResponse(user);
     }
 
     @Override
     public UserResponseDTO updateUser(Long id,
-                                      UserRequestDTO request) {
+            UserRequestDTO request) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User not found"));
 
         userMapper.updateEntity(request, user);
 
@@ -77,9 +81,8 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User not found"));
 
         userRepository.delete(user);
     }
