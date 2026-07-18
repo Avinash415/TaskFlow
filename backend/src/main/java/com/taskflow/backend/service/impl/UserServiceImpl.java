@@ -1,49 +1,86 @@
 package com.taskflow.backend.service.impl;
 
+import com.taskflow.backend.dto.request.UserRequestDTO;
+import com.taskflow.backend.dto.response.UserResponseDTO;
 import com.taskflow.backend.entity.User;
+import com.taskflow.backend.exception.DuplicateResourceException;
+import com.taskflow.backend.exception.ResourceNotFoundException;
+import com.taskflow.backend.mapper.UserMapper;
 import com.taskflow.backend.repository.UserRepository;
 import com.taskflow.backend.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Override
+    public UserResponseDTO createUser(UserRequestDTO request) {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateResourceException(
+                    "Email already exists");
+        }
+
+        User user = userMapper.toEntity(request);
+
+        user.setEnabled(true);
+
+        User savedUser = userRepository.save(user);
+
+        return userMapper.toResponse(savedUser);
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public List<UserResponseDTO> getAllUsers() {
+
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toResponse)
+                .toList();
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public UserResponseDTO getUserById(Long id) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found"));
+
+        return userMapper.toResponse(user);
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
+    public UserResponseDTO updateUser(Long id,
+                                      UserRequestDTO request) {
 
-    @Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found"));
 
-    @Override
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+        userMapper.updateEntity(request, user);
+
+        User updated = userRepository.save(user);
+
+        return userMapper.toResponse(updated);
     }
 
     @Override
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found"));
+
+        userRepository.delete(user);
     }
 }

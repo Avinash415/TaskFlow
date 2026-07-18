@@ -1,21 +1,20 @@
 package com.taskflow.backend.service;
 
-import com.taskflow.backend.entity.User;
+import com.taskflow.backend.dto.request.UserRequestDTO;
+import com.taskflow.backend.dto.response.UserResponseDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
-    User save(User user);
+    UserResponseDTO createUser(UserRequestDTO request);
 
-    List<User> getAllUsers();
+    List<UserResponseDTO> getAllUsers();
 
-    Optional<User> getUserById(Long id);
+    UserResponseDTO getUserById(Long id);
 
-    Optional<User> getUserByEmail(String email);
-
-    boolean existsByEmail(String email);
+    UserResponseDTO updateUser(Long id,
+                               UserRequestDTO request);
 
     void deleteUser(Long id);
 
