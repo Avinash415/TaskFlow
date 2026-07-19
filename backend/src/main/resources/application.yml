@@ -1,29 +1,36 @@
 spring:
   application:
     name: taskflow-backend
+
+  spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/taskflow
-    username: postgres
-    password: postgres
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/taskflow}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
-      ddl-auto: validate  # Change to 'validate' after Flyway
-    show-sql: true
+      ddl-auto: validate
+
+    show-sql: false
+
     properties:
       hibernate:
         format_sql: true
+
   flyway:
     enabled: true
     baseline-on-migrate: true
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 jwt:
-  secret: "YourSuperSecretJWTKeyForTaskFlow2026AtLeast256BitsLongChangeInProd!!!"
-  expiration: 86400000     # 24 hours
-  refresh-expiration: 604800000  # 7 days
+  jwt:
+  secret: ${JWT_SECRET:YourVeryStrongSecretKey12345678901234567890}
+  expiration: 86400000
+  refresh-expiration: 604800000
 
 app:
-  frontend-url: http://localhost:3000
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
