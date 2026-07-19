@@ -10,16 +10,12 @@ import java.time.LocalDate;
 public class TaskResponseDTO {
 
     private Long id;
-
     private String title;
-
     private String description;
-
-    private TaskStatus status;
-
-    private TaskPriority priority;
-
     private LocalDate dueDate;
-
-    private Boolean completed;
+    private TaskPriority priority;
+    private TaskStatus status;
+    private Long projectId;
+    private Long categoryId;
+    private String projectName;
 }

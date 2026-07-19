@@ -16,41 +16,33 @@ import java.time.LocalDate;
 @Builder
 public class Task extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(nullable = false, length = 150)
     private String title;
 
     @Column(length = 1000)
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TaskStatus status;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TaskPriority priority;
-
-    @Column(name = "due_date")
     private LocalDate dueDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean completed = false;
+    private TaskPriority priority = TaskPriority.MEDIUM;
 
-    // -----------------------
-    // Relationships
-    // -----------------------
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus status = TaskStatus.TODO;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean completed = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

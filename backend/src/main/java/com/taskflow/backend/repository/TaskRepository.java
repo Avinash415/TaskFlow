@@ -1,21 +1,22 @@
 package com.taskflow.backend.repository;
 
 import com.taskflow.backend.entity.Task;
-import com.taskflow.backend.enums.TaskPriority;
 import com.taskflow.backend.enums.TaskStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
-public interface TaskRepository
-        extends JpaRepository<Task, Long> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
     List<Task> findByUserId(Long userId);
 
-    List<Task> findByStatus(TaskStatus status);
+    List<Task> findByUserIdAndProjectId(Long userId, Long projectId);
 
-    List<Task> findByPriority(TaskPriority priority);
+    List<Task> findByUserIdAndStatus(Long userId, TaskStatus status);
 
-    List<Task> findByCompleted(Boolean completed);
-
+    @Query("SELECT t FROM Task t WHERE t.user.id = :userId AND t.dueDate < :today AND t.status != 'COMPLETED'")
+    List<Task> findOverdueTasks(@Param("userId") Long userId, @Param("today") LocalDate today);
 }
