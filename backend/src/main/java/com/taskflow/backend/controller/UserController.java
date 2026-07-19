@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,6 +38,7 @@ public class UserController {
                                 .body(apiResponse);
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
         @GetMapping
         public ResponseEntity<ApiResponse<List<UserResponseDTO>>> getAllUsers() {
 
@@ -51,6 +53,7 @@ public class UserController {
                 return ResponseEntity.ok(response);
         }
 
+        @PreAuthorize("hasAnyRole('ADMIN','USER')")
         @GetMapping("/{id}")
         public ResponseEntity<ApiResponse<UserResponseDTO>> getUserById(
                         @PathVariable Long id) {
@@ -82,6 +85,7 @@ public class UserController {
                 return ResponseEntity.ok(response);
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
         @DeleteMapping("/{id}")
         public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
 
