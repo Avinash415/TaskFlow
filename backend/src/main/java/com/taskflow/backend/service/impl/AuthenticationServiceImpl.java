@@ -10,7 +10,7 @@ import com.taskflow.backend.enums.Role;
 import com.taskflow.backend.exception.DuplicateResourceException;
 import com.taskflow.backend.mapper.UserMapper;
 import com.taskflow.backend.repository.UserRepository;
-import com.taskflow.backend.security.jwt.JwtService;
+import com.taskflow.backend.security.service.JwtService;
 import com.taskflow.backend.security.service.CustomUserDetails;
 import com.taskflow.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;

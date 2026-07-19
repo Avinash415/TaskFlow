@@ -3,7 +3,6 @@ package com.taskflow.backend.entity;
 import com.taskflow.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,32 +15,28 @@ import java.util.List;
 @Builder
 public class User extends BaseEntity {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Column(nullable = false, length = 100)
+    private String fullName;
 
-        @Column(nullable = false, length = 100)
-        private String fullName;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-        @Column(nullable = false, unique = true)
-        private String email;
+    @Column(nullable = false)
+    private String password;
 
-        @Column(nullable = false)
-        private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
 
-        @Enumerated(EnumType.STRING)
-        @Column(nullable = false)
-        private Role role;
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean enabled = true;
 
-        @Column(nullable = false)
-        @Builder.Default
-        private Boolean enabled = true;
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Project> projects = new ArrayList<>();
 
-        @Builder.Default
-        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-        private List<Project> projects = new ArrayList<>();
-
-        @Builder.Default
-        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-        private List<Task> tasks = new ArrayList<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Task> tasks = new ArrayList<>();
 }
