@@ -11,5 +11,6 @@ public interface CategoryRepository
     boolean existsByName(String name);
 
     Optional<Category> findByName(String name);
+    long count();
 
 }
