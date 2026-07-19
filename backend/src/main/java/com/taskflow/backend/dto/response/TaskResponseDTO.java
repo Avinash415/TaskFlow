@@ -18,4 +18,5 @@ public class TaskResponseDTO {
     private Long projectId;
     private Long categoryId;
     private String projectName;
+    private String categoryName;
 }
