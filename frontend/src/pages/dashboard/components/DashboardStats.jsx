@@ -1,48 +1,54 @@
 import {
   FolderKanban,
-  ClipboardList,
-  CircleCheckBig,
-  Clock3,
+  ListTodo,
+  CheckCircle,
+  Layers
 } from "lucide-react";
 
-import DashboardCard from "../../../components/DashboardCard/DashboardCard";
+import DashboardCard from "../../../components/common/DashboardCard/DashboardCard";
+import useDashboard from "../../../hooks/useDashboard";
 
 const DashboardStats = () => {
-  const stats = [
-    {
-      title: "Projects",
-      value: 8,
-      icon: <FolderKanban size={32} />,
-    },
-    {
-      title: "Tasks",
-      value: 63,
-      icon: <ClipboardList size={32} />,
-    },
-    {
-      title: "Completed",
-      value: 45,
-      icon: <CircleCheckBig size={32} />,
-    },
-    {
-      title: "Pending",
-      value: 18,
-      icon: <Clock3 size={32} />,
-    },
-  ];
+
+  const {
+    dashboard,
+    loading,
+  } = useDashboard();
+
+  if (loading) return null;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-      {stats.map((item) => (
-        <DashboardCard
-          key={item.title}
-          title={item.title}
-          value={item.value}
-          icon={item.icon}
-        />
-      ))}
+
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+
+      <DashboardCard
+        title="Projects"
+        value={dashboard.totalProjects}
+        icon={<FolderKanban size={30} />}
+      />
+
+      <DashboardCard
+        title="Tasks"
+        value={dashboard.totalTasks}
+        icon={<ListTodo size={30} />}
+      />
+
+      <DashboardCard
+        title="Completed"
+        value={dashboard.completedTasks}
+        icon={<CheckCircle size={30} />}
+      />
+
+      <DashboardCard
+        title="Categories"
+        value={dashboard.totalCategories}
+        icon={<Layers size={30} />}
+      />
+
     </div>
+
   );
+
 };
 
 export default DashboardStats;

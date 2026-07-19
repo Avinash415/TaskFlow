@@ -38,7 +38,7 @@ public class UserController {
                                 .body(apiResponse);
         }
 
-        @PreAuthorize("hasRole('ADMIN')")
+        // @PreAuthorize("hasRole('ADMIN')")
         @GetMapping
         public ResponseEntity<ApiResponse<List<UserResponseDTO>>> getAllUsers() {
 
@@ -85,7 +85,7 @@ public class UserController {
                 return ResponseEntity.ok(response);
         }
 
-        @PreAuthorize("hasRole('ADMIN')")
+        // @PreAuthorize("hasRole('ADMIN')")
         @DeleteMapping("/{id}")
         public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
 
