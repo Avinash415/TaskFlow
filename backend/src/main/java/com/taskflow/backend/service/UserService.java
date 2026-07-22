@@ -17,5 +17,6 @@ public interface UserService {
                                UserRequestDTO request);
 
     void deleteUser(Long id);
+    UserResponseDTO getCurrentUser();
 
 }

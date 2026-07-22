@@ -28,6 +28,8 @@ import EditUser from "../pages/users/EditUser";
 import UserDetails from "../pages/users/UserDetails";
 
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminUsers from "../pages/admin/AdminUsers";
 
 import Forbidden from "../pages/Forbidden";
 import NotFound from "../pages/NotFound";
@@ -53,97 +55,131 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // Protected Routes
-  {
-    element: (
-      <ProtectedRoute>
-        <AppLayout />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
+// Protected Routes
+{
+  element: (
+    <ProtectedRoute>
+      <AppLayout />
+    </ProtectedRoute>
+  ),
+  children: [
 
-      // ================= Projects =================
-      {
-        path: "/projects",
-        element: <ProjectList />,
-      },
-      {
-        path: "/projects/new",
-        element: <CreateProject />,
-      },
-      {
-        path: "/projects/:id",
-        element: <ProjectDetails />,
-      },
-      {
-        path: "/projects/edit/:id",
-        element: <EditProject />,
-      },
+    // ================= Dashboard =================
 
-      // ================= Categories =================
-      {
-        path: "/categories",
-        element: <CategoryList />,
-      },
-      {
-        path: "/categories/new",
-        element: <CreateCategory />,
-      },
-      {
-        path: "/categories/edit/:id",
-        element: <EditCategory />,
-      },
+    {
+      path: "/dashboard",
+      element: <Dashboard />,
+    },
 
-      // ================= Tasks =================
-      {
-        path: "/tasks",
-        element: <TaskList />,
-      },
-      {
-        path: "/tasks/new",
-        element: <CreateTask />,
-      },
-      {
-        path: "/tasks/:id",
-        element: <TaskDetails />,
-      },
-      {
-        path: "/tasks/edit/:id",
-        element: <EditTask />,
-      },
+    // ================= Admin =================
 
-      // ================= Users =================
-      {
-        path: "/users",
-        element: <UserList />,
-      },
-      {
-        path: "/users/new",
-        element: <CreateUser />,
-      },
-      {
-        path: "/users/:id",
-        element: <UserDetails />,
-      },
-      {
-        path: "/users/edit/:id",
-        element: <EditUser />,
-      },
+    {
+      path: "/admin/dashboard",
+      element: (
+        <ProtectedRoute roles={["ADMIN"]}>
+          <AdminDashboard />
+        </ProtectedRoute>
+      ),
+    },
 
-      // ================= Others =================
-      {
-        path: "/403",
-        element: <Forbidden />,
-      },
-    ],
-  },
+    {
+      path: "/admin/users",
+      element: (
+        <ProtectedRoute roles={["ADMIN"]}>
+          <AdminUsers />
+        </ProtectedRoute>
+      ),
+    },
 
-  {
-    path: "*",
-    element: <NotFound />,
-  },
+    // ================= Projects =================
+
+    {
+      path: "/projects",
+      element: <ProjectList />,
+    },
+
+    {
+      path: "/projects/new",
+      element: <CreateProject />,
+    },
+
+    {
+      path: "/projects/:id",
+      element: <ProjectDetails />,
+    },
+
+    {
+      path: "/projects/edit/:id",
+      element: <EditProject />,
+    },
+
+    // ================= Categories =================
+
+    {
+      path: "/categories",
+      element: <CategoryList />,
+    },
+
+    {
+      path: "/categories/new",
+      element: <CreateCategory />,
+    },
+
+    {
+      path: "/categories/edit/:id",
+      element: <EditCategory />,
+    },
+
+    // ================= Tasks =================
+
+    {
+      path: "/tasks",
+      element: <TaskList />,
+    },
+
+    {
+      path: "/tasks/new",
+      element: <CreateTask />,
+    },
+
+    {
+      path: "/tasks/:id",
+      element: <TaskDetails />,
+    },
+
+    {
+      path: "/tasks/edit/:id",
+      element: <EditTask />,
+    },
+
+    // ================= Users =================
+
+    {
+      path: "/users",
+      element: <UserList />,
+    },
+
+    {
+      path: "/users/new",
+      element: <CreateUser />,
+    },
+
+    {
+      path: "/users/:id",
+      element: <UserDetails />,
+    },
+
+    {
+      path: "/users/edit/:id",
+      element: <EditUser />,
+    },
+
+    // ================= Others =================
+
+    {
+      path: "/403",
+      element: <Forbidden />,
+    },
+  ],
+},
 ]);

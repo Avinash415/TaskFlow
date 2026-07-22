@@ -1,61 +1,55 @@
-import {
-  FolderKanban,
-  ListTodo,
-  CheckCircle,
-  Layers,
-} from "lucide-react";
-
-import DashboardCard from "../../../components/common/DashboardCard/DashboardCard";
-import useDashboard from "../../../hooks/useDashboard";
+import { FolderKanban, ListTodo, Tags, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const DashboardStats = () => {
-  const { dashboard, loading, error } = useDashboard();
+  const navigate = useNavigate();
 
-  if (loading) {
-    return <p>Loading dashboard...</p>;
-  }
-
-  if (error) {
-    return (
-      <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-red-600">
-        Failed to load dashboard.
-      </div>
-    );
-  }
-
-  if (!dashboard) {
-    return (
-      <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-4">
-        No dashboard data available.
-      </div>
-    );
-  }
+  const cards = [
+    {
+      title: "Projects",
+      icon: <FolderKanban size={32} />,
+      path: "/projects",
+      color: "bg-blue-100 text-blue-600",
+    },
+    {
+      title: "Tasks",
+      icon: <ListTodo size={32} />,
+      path: "/tasks",
+      color: "bg-green-100 text-green-600",
+    },
+    {
+      title: "Categories",
+      icon: <Tags size={32} />,
+      path: "/categories",
+      color: "bg-yellow-100 text-yellow-600",
+    },
+    {
+      title: "Users",
+      icon: <Users size={32} />,
+      path: "/users",
+      color: "bg-purple-100 text-purple-600",
+    },
+  ];
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-      <DashboardCard
-        title="Projects"
-        value={dashboard.totalProjects ?? 0}
-        icon={<FolderKanban size={30} />}
-      />
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {cards.map((card) => (
+        <button
+          key={card.title}
+          onClick={() => navigate(card.path)}
+          className="rounded-2xl border bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+        >
+          <div className={`mb-5 inline-flex rounded-xl p-4 ${card.color}`}>
+            {card.icon}
+          </div>
 
-      <DashboardCard
-        title="Tasks"
-        value={dashboard.totalTasks ?? 0}
-        icon={<ListTodo size={30} />}
-      />
+          <h3 className="text-lg font-semibold">{card.title}</h3>
 
-      <DashboardCard
-        title="Completed"
-        value={dashboard.completedTasks ?? 0}
-        icon={<CheckCircle size={30} />}
-      />
-
-      <DashboardCard
-        title="Categories"
-        value={dashboard.totalCategories ?? 0}
-        icon={<Layers size={30} />}
-      />
+          <p className="mt-1 text-sm text-gray-500">
+            Open {card.title.toLowerCase()} module
+          </p>
+        </button>
+      ))}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { TASK_STATUS } from "../../../utils/constants";
+import { TASK_STATUS } from "../../../constants/taskConstants"
 
 const TaskFilters = ({
   search,

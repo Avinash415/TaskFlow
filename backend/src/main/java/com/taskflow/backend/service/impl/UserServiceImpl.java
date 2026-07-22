@@ -7,6 +7,7 @@ import com.taskflow.backend.exception.DuplicateResourceException;
 import com.taskflow.backend.exception.ResourceNotFoundException;
 import com.taskflow.backend.mapper.UserMapper;
 import com.taskflow.backend.repository.UserRepository;
+import com.taskflow.backend.security.util.CurrentUserService;
 import com.taskflow.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final CurrentUserService currentUserService;
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO request) {
@@ -85,5 +87,14 @@ public class UserServiceImpl implements UserService {
                         "User not found"));
 
         userRepository.delete(user);
+    }
+
+    @Override
+    public UserResponseDTO getCurrentUser() {
+
+        User user = currentUserService.getCurrentUser();
+
+        return userMapper.toResponse(user);
+
     }
 }

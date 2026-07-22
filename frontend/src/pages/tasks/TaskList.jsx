@@ -14,7 +14,7 @@ import TaskFilters from "./components/TaskFilters";
 import StatusBadge from "./components/StatusBadge";
 import PriorityBadge from "./components/PriorityBadge";
 
-import { TASK_STATUS } from "../../utils/constants";
+import { TASK_STATUS } from "../../constants/taskConstants";
 import { formatDate } from "../../utils/date";
 
 const TaskList = () => {

@@ -98,4 +98,21 @@ public class UserController {
 
                 return ResponseEntity.ok(response);
         }
+
+        @GetMapping("/me")
+        public ResponseEntity<ApiResponse<UserResponseDTO>> getCurrentUser() {
+
+                UserResponseDTO user = userService.getCurrentUser();
+
+                return ResponseEntity.ok(
+
+                                ApiResponse.<UserResponseDTO>builder()
+                                                .success(true)
+                                                .message("Current user fetched successfully")
+                                                .data(user)
+                                                .build()
+
+                );
+
+        }
 }

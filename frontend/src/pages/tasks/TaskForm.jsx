@@ -8,7 +8,7 @@ import TextArea from "../../components/common/Form/TextArea";
 import SelectField from "../../components/common/Form/SelectField";
 import DateField from "../../components/common/Form/DateField";
 
-import { TASK_PRIORITY, TASK_STATUS } from "../../utils/constants";
+import { TASK_PRIORITY, TASK_STATUS } from "../../constants/taskConstants";
 
 import Button from "../../components/common/Button/Button";
 
@@ -36,8 +36,8 @@ const TaskForm = ({
           {isEdit ? "Edit Task" : "Create New Task"}
         </h1>
         <p className="text-gray-500 mt-2">
-          {isEdit 
-            ? "Update task details" 
+          {isEdit
+            ? "Update task details"
             : "Break down your work into actionable tasks"}
         </p>
       </div>
@@ -51,7 +51,10 @@ const TaskForm = ({
           label="Task Title"
           registration={register("title", {
             required: "Task title is required",
-            minLength: { value: 5, message: "Title must be at least 5 characters" }
+            minLength: {
+              value: 5,
+              message: "Title must be at least 5 characters",
+            },
           })}
           error={errors.title?.message}
           placeholder="Design new login page"
@@ -104,10 +107,7 @@ const TaskForm = ({
             options={TASK_STATUS}
           />
 
-          <DateField
-            label="Due Date"
-            registration={register("dueDate")}
-          />
+          <DateField label="Due Date" registration={register("dueDate")} />
         </div>
 
         {/* Submit Buttons */}
@@ -121,12 +121,12 @@ const TaskForm = ({
             Cancel
           </Button>
 
-          <Button
-            type="submit"
-            disabled={loading}
-            className="flex-1"
-          >
-            {loading ? "Saving Task..." : isEdit ? "Update Task" : "Create Task"}
+          <Button type="submit" disabled={loading} className="flex-1">
+            {loading
+              ? "Saving Task..."
+              : isEdit
+                ? "Update Task"
+                : "Create Task"}
           </Button>
         </div>
       </form>
