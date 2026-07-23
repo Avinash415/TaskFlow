@@ -20,44 +20,104 @@ const DataTable = ({
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="min-w-full">
-          <thead className="bg-slate-100">
-            <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  className="px-6 py-4 text-left text-sm font-semibold"
-                >
-                  {column.title}
-                </th>
-              ))}
-            </tr>
-          </thead>
+    <>
+      {/* ================= Desktop Table ================= */}
 
-          <tbody>
-            {data.map((row) => (
-              <tr
-                key={row.id}
-                className="border-t hover:bg-slate-50"
-              >
+      <div className="hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:block">
+
+        <div className="overflow-x-auto">
+
+          <table className="min-w-full">
+
+            <thead className="bg-slate-100">
+
+              <tr>
+
                 {columns.map((column) => (
-                  <td
+                  <th
                     key={column.key}
-                    className="px-6 py-4"
+                    className="px-6 py-4 text-left text-sm font-semibold text-slate-700"
                   >
-                    {column.render
-                      ? column.render(row)
-                      : row[column.key]}
-                  </td>
+                    {column.title}
+                  </th>
                 ))}
+
               </tr>
-            ))}
-          </tbody>
-        </table>
+
+            </thead>
+
+            <tbody>
+
+              {data.map((row) => (
+
+                <tr
+                  key={row.id}
+                  className="border-t transition hover:bg-slate-50"
+                >
+
+                  {columns.map((column) => (
+
+                    <td
+                      key={column.key}
+                      className="px-6 py-4 text-sm text-slate-700"
+                    >
+                      {column.render
+                        ? column.render(row)
+                        : row[column.key]}
+                    </td>
+
+                  ))}
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
       </div>
-    </div>
+
+      {/* ================= Mobile Cards ================= */}
+
+      <div className="space-y-4 lg:hidden">
+
+        {data.map((row) => (
+
+          <div
+            key={row.id}
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          >
+
+            {columns.map((column) => (
+
+              <div
+                key={column.key}
+                className="flex items-start justify-between py-2"
+              >
+
+                <span className="mr-4 text-sm font-semibold text-slate-500">
+                  {column.title}
+                </span>
+
+                <div className="text-right">
+                  {column.render
+                    ? column.render(row)
+                    : row[column.key]}
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        ))}
+
+      </div>
+    </>
   );
 };
 

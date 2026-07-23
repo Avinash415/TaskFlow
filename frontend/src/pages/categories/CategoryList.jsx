@@ -51,7 +51,7 @@ const CategoryList = () => {
       key: "actions",
       title: "Actions",
       render: (category) => (
-        <div className="flex items-center gap-2">
+        <div className="flex justify-end items-center gap-2">
           <button
             onClick={() =>
               navigate(`/categories/edit/${category.id}`)
